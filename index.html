@@ -879,8 +879,47 @@
 
         const app = new ScheduleApp();
     </script>
-    
+
     <script data-goatcounter="https://royskey.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+
+    
+<!-- Скрипт для отслеживания кнопок настроек -->
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    // Каждые 100мс проверяем, загрузился ли счетчик в браузере
+    const checkGoat = setInterval(() => {
+      if (window.goatcounter && window.goatcounter.count) {
+        clearInterval(checkGoat);
+        
+        // Функция для привязки события к тексту кнопки
+        const trackButtonClick = (buttonText, eventPath, eventTitle) => {
+          // Ищем кнопку по тексту внутри нее
+          const buttons = Array.from(document.querySelectorAll('button'));
+          const targetButton = buttons.find(btn => btn.textContent.includes(buttonText));
+          
+          if (targetButton) {
+            targetButton.addEventListener('click', () => {
+              window.goatcounter.count({
+                path:  eventPath,
+                title: eventTitle,
+                event: true, // Помечаем в панели GoatCounter как "событие", а не просмотр страницы
+              });
+            });
+          }
+        };
+
+        // Привязываем отслеживание к вашим кнопкам
+        trackButtonClick('Подгруппа 1', 'click-subgroup-1', 'Выбор Подгруппы 1');
+        trackButtonClick('Подгруппа 2', 'click-subgroup-2', 'Выбор Подгруппы 2');
+        trackButtonClick('1 неделя', 'click-week-1', 'Просмотр 1 недели');
+        trackButtonClick('2 неделя', 'click-week-2', 'Просмотр 2 недели');
+        trackButtonClick('Сегодня', 'click-today', 'Клик по кнопке Сегодня');
+        trackButtonClick('Обновить', 'click-refresh', 'Ручное обновление расписания');
+      }
+    }, 100);
+  });
+</script>
+
 </body>
 </html>
