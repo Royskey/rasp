@@ -1,8 +1,10 @@
 {
+  "id": "/",
+  "scope": "/",
   "name": "Расписание 9-ИС403",
   "short_name": "Расписание",
   "description": "Удобное расписание для группы 9-ИС403 НГУЭУ",
-  "start_url": "/",
+  "start_url": "/?utm_source=pwa",
   "display": "standalone",
   "background_color": "#111111",
   "theme_color": "#0070f3",
