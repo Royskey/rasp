@@ -6,10 +6,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <!-- Стандартный мета-тег для подавления ворнинга в Chrome/Chromium -->
     <meta name="mobile-web-app-capable" content="yes">
-    
+
+    <!-- Apple-специфичный тег (для совместимости со старыми версиями iOS Safari) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Расписание 9-ИС403</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2225%22 fill=%22%230b021a%22/><text x=%2250%22 y=%2270%22 font-size=%2260%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%23ffffff%22 font-family=%22sans-serif%22>N</text></svg>">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     
     <link rel="stylesheet" href="style.css">
@@ -57,10 +62,15 @@
             <span>Сегодня</span>
         </button>
         
-        <button class="tab-btn js-theme-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <span>Тема</span>
-        </button>
+        <a href="https://nsuem.vercel.app/" class="tab-btn" target="_blank" style="text-decoration: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>Сервисы</span>
+    </a>
     </nav>
 
     <div id="pwa-popup">

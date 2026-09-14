@@ -123,7 +123,6 @@ class ScheduleApp {
                 this.subgroup = e.target.dataset.subgroup;
                 Store.set('subgroup', this.subgroup);
                 this.updateSegments();
-                // Загружаем с сервера новую подгруппу с анимацией исчезновения
                 this.animateChange(() => this.loadData(false)); 
             });
         });
@@ -140,12 +139,7 @@ class ScheduleApp {
             });
         });
 
-        document.querySelector('.js-today-btn').addEventListener('click', () => this.scrollToToday());
-        document.querySelector('.js-theme-btn').addEventListener('click', () => {
-            this.theme = this.theme === 'dark' ? 'light' : 'dark';
-            Store.set('theme', this.theme);
-            document.documentElement.setAttribute('data-theme', this.theme);
-        });
+        document.querySelector('.js-today-btn')?.addEventListener('click', () => this.scrollToToday());
     }
 
     updateSegments() {
