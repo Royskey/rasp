@@ -2,92 +2,76 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Стандартный мета-тег для подавления ворнинга в Chrome/Chromium -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Apple-специфичный тег (для совместимости со старыми версиями iOS Safari) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Расписание 9-ИС403</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="manifest" href="/manifest.json">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="script.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    
+    <script>
+        const savedTheme = localStorage.getItem('schedule_app_theme');
+        if (savedTheme) {
+            const theme = JSON.parse(savedTheme);
+            if (theme !== 'auto') document.documentElement.setAttribute('data-theme', theme);
+        }
+    </script>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
-    <header class="app-header">
-        <div class="logo-area">
+    <header class="liquid-glass-header">
+        <div class="header-content">
             <h1>Расписание <span>9-ИС403</span></h1>
-        </div>
-        <div class="header-right">
-            <div class="header-info">
-                <span class="info-item">
-                    <i class="fas fa-users"></i>
-                    <span class="badge" id="subgroupBadge">1</span>
-                </span>
-                <span class="info-item">
-                    <i class="fas fa-calendar-week"></i>
-                    <span id="weekBadge">Авто</span>
-                </span>
+            <div class="segmented-control" id="weekControl">
+                <button class="segment" data-week="auto">Авто</button>
+                <button class="segment" data-week="1">1 Нед.</button>
+                <button class="segment" data-week="2">2 Нед.</button>
             </div>
-            <button class="burger-btn" id="burgerBtn" aria-label="Меню">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="segmented-control" id="subgroupControl" style="margin-top: 8px;">
+                <button class="segment" data-subgroup="1">Подгруппа 1</button>
+                <button class="segment" data-subgroup="2">Подгруппа 2</button>
+            </div>
         </div>
     </header>
 
-    <div class="burger-overlay" id="burgerOverlay"></div>
-    <div class="burger-menu" id="burgerMenu">
-        <button class="close-btn" id="closeBurger"><i class="fas fa-times"></i></button>
-        <div class="menu-title">Настройки</div>
+    <!-- Добавлен класс для анимаций (fade) -->
+    <main class="cards-container" id="cardsContainer">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+    </main>
 
-        <button class="burger-item" data-action="subgroup" data-value="1">
-            <i class="fas fa-1"></i> Подгруппа 1
-            <span class="sub" id="menuSubgroup1">✓</span>
-        </button>
-        <button class="burger-item" data-action="subgroup" data-value="2">
-            <i class="fas fa-2"></i> Подгруппа 2
-            <span class="sub" id="menuSubgroup2">✓</span>
-        </button>
-
-        <div class="burger-divider"></div>
-
-        <button class="burger-item" data-action="week" data-value="auto">
-            <i class="fas fa-magic"></i> Авто
-            <span class="sub" id="menuWeekAuto">✓</span>
-        </button>
-        <button class="burger-item" data-action="week" data-value="1">
-            <i class="fas fa-1"></i> 1 неделя
-            <span class="sub" id="menuWeek1">✓</span>
-        </button>
-        <button class="burger-item" data-action="week" data-value="2">
-            <i class="fas fa-2"></i> 2 неделя
-            <span class="sub" id="menuWeek2">✓</span>
-        </button>
-
-        <div class="burger-divider"></div>
-
-        <button class="burger-item" id="menuToday">
-            <i class="fas fa-calendar-check"></i> Сегодня
-        </button>
-        <button class="burger-item" id="menuRefresh">
-            <i class="fas fa-sync-alt"></i> Обновить
-        </button>
+    <div class="footer-info">
+        Обновлено <span id="updateTime">только что</span>
     </div>
 
-    <div class="cards-container" id="cardsContainer">
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
+    <!-- Лаконичный и симметричный док -->
+    <nav class="liquid-tab-bar">
+        <button class="tab-btn js-today-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M9 16l2 2 4-4"></path></svg>
+            <span>Сегодня</span>
+        </button>
+        
+        <button class="tab-btn js-theme-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <span>Тема</span>
+        </button>
+    </nav>
+
+    <div id="pwa-popup">
+        <p class="pwa-title">Установить приложение</p>
+        <p class="pwa-desc">Нажми «Поделиться» <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> и выбери<br>«На экран Домой»</p>
     </div>
 
-    <div class="footer-note" id="footerNote">
-        <i class="fas fa-clock"></i> Обновлено <span id="updateTime">только что</span>
-    </div>
-
-    <script data-goatcounter="https://royskey.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
